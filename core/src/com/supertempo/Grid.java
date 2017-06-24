@@ -37,4 +37,8 @@ public class Grid {
     public Vector2 elementSize(){
         return new Vector2(rectW_, rectH_);
     }
+
+    public static Rectangle shrink(Rectangle rect, float scale){
+        return new Rectangle(rect.x + (rect.width/2f)*(1f-scale), rect.y + (rect.height/2f)*(1f-scale), rect.width*scale, rect.height*scale);
+    }
 }

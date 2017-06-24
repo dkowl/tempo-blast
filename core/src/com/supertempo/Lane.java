@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2;
  * Created by Dominik on 6/21/2017.
  */
 
-public class Line {
+public class Lane {
 
     public Vector2 beginPoint_, endPoint_, beginSize_, endSize_;
 
-    Line(Vector2 beginPoint, Vector2 endPoint, Vector2 beginSize, Vector2 endSize){
+    public Lane(Vector2 beginPoint, Vector2 endPoint, Vector2 beginSize, Vector2 endSize){
         beginPoint_ = beginPoint;
         endPoint_ = endPoint;
         beginSize_ = beginSize;
@@ -25,7 +25,7 @@ public class Line {
         return true;
     }
 
-    public Rectangle lerp(float value){
+    public Rectangle lerpRect(float value){
         Vector2
                 size = lerp(beginSize_, endSize_, value),
                 point = lerp(beginPoint_, endPoint_, value);
