@@ -21,9 +21,9 @@ public class GameWorld {
     static final int GRID_W = 3, GRID_H = 3;
     Rectangle gridRect_, smallGridRect_;
     static final float
-            smallGridScale = 0.4f,
-            smallGridYShift = 0f,
-            smallGridXShift = 0f;
+            smallGridScale = 0.5f,
+            smallGridYShift = 0.0f,
+            smallGridXShift = 0.0f;
 
     Grid mainGrid_, smallGrid_;
 
@@ -53,13 +53,15 @@ public class GameWorld {
 
         timeElapsed_ = 0;
 
-        song_ = new Song("Random Song");
-        song_.randomize(200, laneCount(), 75);
+        String songName = "datsik_nasty";
+        song_ = new Song(songName);
+        song_.loadFromFile("music/notes/" + songName + ".notes", "music/" + songName + ".mp3");
+        //song_.randomize(200, laneCount(), 75);
     }
 
     public void update(float delta){
         timeElapsed_ += delta;
-        song_.updateTime(timeElapsed_);
+        song_.updateTime(delta);
     }
 
     public void touchDown(int x, int y){

@@ -1,12 +1,12 @@
 clear;
 
-songName = 'far-too-loud_firestorm';
+songName = 'datsik_nasty';
 songFormat = '.wav';
 songFolder = 'C:\Users\Dominik\Desktop\SuperTempo\matlab\music\';
 songPath = strcat(songFolder, songName, songFormat);
 
 [song, fs] = audioread(songPath);
-%song = song(1:4500000);
+song = song(500000:10000000);
 L = length(song);
 windowL = 512;
 hannWindow = hann(windowL);
@@ -179,11 +179,13 @@ for i = (1:totalWindows-gaussWinSize)
 end
 
 noteChanceMedian = zeros(1, totalWindows);
+noteChanceAverage = zeros(1, totalWindows);
 noteChanceThreshold = zeros(1, totalWindows);
 medianWindowSize = 100;
 for i = 1:totalWindows
     noteChanceMedian(i) = median(noteChance(max(1, i-medianWindowSize):i));
-    noteChanceThreshold(i) = 2 + noteChanceMedian(i)/2;
+    noteChanceAverage(i) = mean(noteChance(max(1, i-medianWindowSize):i));
+    noteChanceThreshold(i) = 2 + noteChanceMedian(i);
 end
 
 %note timing
@@ -208,7 +210,7 @@ noteChosenChances = sort(noteChosenChances);
 noteKeyThreshold = zeros(1, keyNo);
 noteKeyNumber = zeros(1, length(noteIds));
 for i = 1:9
-    noteKeyThreshold(i) = noteChosenChances(floor(i*length(noteIds)/keyNo));
+    noteKeyThreshold(i) = noteChosenChances(ceil(i*length(noteIds)/keyNo));
 end
 for i = 1:length(noteIds)
     for keyId = 1:keyNo
@@ -227,13 +229,14 @@ for i = 1:length(noteIds)
     fprintf(fileID, '%.3f, %.3f\n', noteTime(noteIds(i)), noteKeyNumber(i));
 end
 toc
+fclose(fileID);
     
 
 
 %display loop
 slowdown = 1;
 windowDisplayStep = 8;
-displayOn = false;
+displayOn = true;
 playOn = false;
 for i = (1:windowDisplayStep:totalWindows)
     if(displayOn == false)
@@ -243,16 +246,16 @@ for i = (1:windowDisplayStep:totalWindows)
         break;
     end
     
-    %subplot(2, 1, 1);
+    subplot(2, 1, 1);
     plot(noteChance(i:min(totalWindows, i+500)));
     hold on
     plot(noteChanceThreshold(i:min(totalWindows, i+500)));
     hold off
     
-    %subplot(2, 1, 2);
-    %plot(filterEMA(:, i));
-    %xlim([0, 30]);
-    %ylim([0, 7]);
+    subplot(2, 1, 2);
+    plot(filterEMA(:, i));
+    xlim([0, 30]);
+    ylim([0, 7]);
     drawnow;
     
     if i == 1
@@ -269,19 +272,20 @@ end
 
 
 %{
-filterIndex = 1;
+filterIndex = 10;
 plot(noteHit(filterIndex, :));
 hold on
 scatter((1:totalWindows), peaks(filterIndex, :));
 hold on
 plot(peakThreshold(filterIndex, :));
 hold off
+
+
+figure
+subplot(2, 1, 1);
+heatmap(peaks);
+
+subplot(2, 1, 2);
+plot(noteChance);
 %}
-
-%figure
-%subplot(2, 1, 1);
-%heatmap(peaks);
-
-%subplot(2, 1, 2);
-%plot(noteChance);
 

@@ -1,5 +1,6 @@
 package com.supertempo;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.supertempo.Screens.Game.GameScreen;
 import com.supertempo.Screens.Game.GameWorld;
@@ -20,6 +21,18 @@ public class InputHandlerGame extends InputAdapter {
     public boolean touchDown(int x, int y, int pointer, int button){
 
         gameWorld_.touchDown(x, y);
+
+        return true;
+    }
+
+    @Override
+    public boolean keyDown(int keyCode){
+        if(keyCode >= Input.Keys.NUMPAD_1 && keyCode <= Input.Keys.NUMPAD_9){
+            int keyId = keyCode - Input.Keys.NUMPAD_1;
+            if(keyId < 3) keyId += 6;
+            else if (keyId > 5) keyId -=6;
+            gameWorld_.song_.hitNote(keyId);
+        }
 
         return true;
     }

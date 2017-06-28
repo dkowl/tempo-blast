@@ -1,8 +1,12 @@
 package com.supertempo;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.supertempo.Screens.Game.GameWorld;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -17,6 +21,7 @@ public class Song {
     float noteLifeTime = 1f;
     int firstActiveNote_ = 0, lastActiveNote_ = 0;
     float time_ = 0f;
+    Music music_;
 
     public Song(String name){
         name_ = name;
@@ -49,23 +54,26 @@ public class Song {
     }
 
     public void updateTime(float time){
-        while(firstActiveNote_ < notes_.size() && firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time){
+
+        if(time>1) time = 0;
+
+        while(firstActiveNote_ < notes_.size() && firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
             keys_[firstActiveNote().lane_].click(false);
             firstActiveNote_++;
         }
-        while(lastActiveNote_ < notes_.size() - 1 && lastActiveNote_<notes_.size() && notes_.get(lastActiveNote_).time_ < time + noteLifeTime){
+        while(lastActiveNote_ < notes_.size() - 1 && lastActiveNote_<notes_.size() && notes_.get(lastActiveNote_).time_ < time_ + noteLifeTime){
             lastActiveNote_++;
         }
 
         for(int i = firstActiveNote_; i<=lastActiveNote_; i++) {
-            notes_.get(i).value_ = (time - (notes_.get(i).time_ - noteLifeTime)) / noteLifeTime;
+            notes_.get(i).value_ = (time_ - (notes_.get(i).time_ - noteLifeTime)) / noteLifeTime;
         }
 
         for(int i = 0; i<keys_.length; i++){
-            keys_[i].updateDelta(time - time_);
+            keys_[i].updateDelta(time);
         }
 
-        time_ = time;
+        time_ += time;
     }
 
     public void randomize(int noteNo, int laneNo, float length){
@@ -75,6 +83,26 @@ public class Song {
             float time = (float)i * length/noteNo + 3;
             notes_.add(new Note(lane, time));
         }
+    }
+
+    public void loadFromFile(String notePath, String musicPath){
+
+        notes_ = new ArrayList<Note>();
+        FileHandle noteFile = Gdx.files.internal(notePath);
+        Scanner scanner = new Scanner(noteFile.read());
+
+        while(scanner.hasNext()){
+            String line = scanner.nextLine();
+            Scanner lineScanner = new Scanner(line);
+            lineScanner.useDelimiter("\\s*,\\s*");
+            float time = lineScanner.nextFloat()/2f+0.4f;
+            int lane = (int)lineScanner.nextFloat()-1;
+            notes_.add(new Note(lane, time));
+        }
+
+        music_ = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
+        music_.play();
+
     }
 
 }
