@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.supertempo.Grid;
 import com.supertempo.Lane;
+import com.supertempo.Resources.SongData;
 import com.supertempo.Song;
 import com.supertempo.SuperTempo;
 
@@ -33,7 +34,7 @@ public class GameWorld {
 
     public Song song_;
 
-    public GameWorld(Vector2 res){
+    public GameWorld(Vector2 res, SongData songData){
         res_ = res;
 
         gridRect_ = new Rectangle(0, res.y-res.x, res.x, res.x);
@@ -53,9 +54,8 @@ public class GameWorld {
 
         timeElapsed_ = 0;
 
-        String songName = "datsik_nasty";
-        song_ = new Song(songName);
-        song_.loadFromFile("music/notes/" + songName + ".notes", "music/" + songName + ".mp3");
+        song_ = new Song(songData.name());
+        song_.loadFromFile(songData.notePath(), songData.songPath());
         //song_.randomize(200, laneCount(), 75);
     }
 

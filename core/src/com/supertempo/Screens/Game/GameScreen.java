@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
         res_ = game_.res;
         camera_ = game.defaultCamera;
 
-        gameWorld_ = new GameWorld(res_);
+        gameWorld_ = new GameWorld(res_, game_.currentSong);
         gameRenderer_ = new GameRenderer(gameWorld_, camera_);
 
         inputHandler = new InputHandlerGame(gameWorld_);

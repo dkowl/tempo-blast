@@ -8,6 +8,15 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Resources {
 
+
+
+    public static SongData[] songData = {
+            new SongData("Datsik", "Nasty", "datsik_nasty"),
+            new SongData("Darude", "Sandstorm", "darude_sandstorm"),
+            new SongData("Far Too Loud", "Firestorm", "far-too-loud_firestorm"),
+            new SongData("Fantastik", "Reptilians", "fantastik_reptilians"),
+    };
+
     private static Color[] noteColors = {
             new Color(0.65f, 0.9f, 1, 1),
             new Color(0.9f, 0.65f, 1, 1),

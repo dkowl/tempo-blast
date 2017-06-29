@@ -6,6 +6,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.supertempo.Resources.Resources;
+import com.supertempo.Resources.SongData;
 import com.supertempo.Screens.Game.GameScreen;
 
 public class SuperTempo extends Game {
@@ -24,12 +26,17 @@ public class SuperTempo extends Game {
 
 	GameScreen gameScreen;
 
+	//Global data
+	public SongData currentSong;
+
 	
 	@Override
 	public void create () {
 		res = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		defaultCamera = new OrthographicCamera(res.x, res.y);
 		defaultCamera.setToOrtho(true);
+
+		currentSong = Resources.songData[0];
 
 		screens = new Screen[ScreenID.Count];
 
