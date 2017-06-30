@@ -3,6 +3,7 @@ package com.supertempo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.supertempo.Resources.SongData;
 import com.supertempo.Screens.Game.GameWorld;
 
 import java.util.ArrayList;
@@ -21,13 +22,22 @@ public class Song {
     float noteLifeTime = 1f;
     int firstActiveNote_ = 0, lastActiveNote_ = 0;
     float time_ = 0f;
+
+    SongData songData_;
     Music music_;
 
-    public Song(String name){
-        name_ = name;
+    //Scoring
+    public int streak_, correct_, total_;
+
+    public Song(SongData songData){
+
         for(int i = 0; i<keys_.length; i++){
             keys_[i] = new Key();
         }
+
+        songData_ = songData;
+        name_ = songData_.name();
+        loadFromFile(songData.notePath(), songData.songPath());
     }
 
     //returns all active notes in reverse order
@@ -44,11 +54,25 @@ public class Song {
     }
 
     public void hitNote(int lane){
+        hitNote(lane, false);
+    }
+
+    public void hitNote(int lane, boolean missed){
         boolean correct = false;
-        if(firstActiveNote().lane_ == lane){
+        if(!missed && firstActiveNote().lane_ == lane){
             correct = true;
             firstActiveNote_++;
         }
+
+        //Updating scores
+        if(correct){
+            streak_++;
+            correct_++;
+        }
+        else{
+            streak_ = 0;
+        }
+        total_++;
 
         keys_[lane].click(correct);
     }
@@ -58,7 +82,7 @@ public class Song {
         if(time>1) time = 0;
 
         while(firstActiveNote_ < notes_.size() && firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
-            keys_[firstActiveNote().lane_].click(false);
+            hitNote(firstActiveNote().lane_, true);
             firstActiveNote_++;
         }
         while(lastActiveNote_ < notes_.size() - 1 && lastActiveNote_<notes_.size() && notes_.get(lastActiveNote_).time_ < time_ + noteLifeTime){
@@ -102,7 +126,18 @@ public class Song {
 
         music_ = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
         music_.play();
+    }
 
+    public float accuracy(){
+        return (float)correct_ / total_;
+    }
+
+    public float playedRatio(){
+        return time_ / songData_.length();
+    }
+
+    public int streak(){
+        return streak_;
     }
 
 }

@@ -54,9 +54,7 @@ public class GameWorld {
 
         timeElapsed_ = 0;
 
-        song_ = new Song(songData.name());
-        song_.loadFromFile(songData.notePath(), songData.songPath());
-        //song_.randomize(200, laneCount(), 75);
+        song_ = new Song(songData);
     }
 
     public void update(float delta){

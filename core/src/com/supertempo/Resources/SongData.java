@@ -6,11 +6,13 @@ package com.supertempo.Resources;
 
 public class SongData{
     private String artist_, title_, filename_;
+    private float length_;
 
-    SongData(String artist, String title, String filename){
+    SongData(String artist, String title, String filename, float length){
         artist_ = artist;
         title_ = title;
         filename_ = filename;
+        length_ = length;
     }
 
     public String name(){
@@ -23,5 +25,9 @@ public class SongData{
 
     public String notePath(){
         return "music/notes/" + filename_ + ".notes";
+    }
+
+    public float length(){
+        return length_;
     }
 }

@@ -1,0 +1,19 @@
+{
+    com.badlogic.gdx.graphics.g2d.BitmapFont: {
+      normaltext: { file: hemi.fnt }
+    }
+
+    com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+      default-horizontal: {
+        background: progress_bar_bg,
+        knob: progress_bar_handle,
+        knobBefore: progress_bar
+      }
+    }
+
+    com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+          default: {
+            font: normaltext
+          }
+        }
+}

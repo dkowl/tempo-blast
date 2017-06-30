@@ -2,10 +2,13 @@ package com.supertempo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.supertempo.Resources.Resources;
 import com.supertempo.Resources.SongData;
 import com.supertempo.Screens.Game.GameScreen;
@@ -14,6 +17,9 @@ public class SuperTempo extends Game {
 
 	public Vector2 res;
 	public OrthographicCamera defaultCamera;
+
+	//Global data
+	public SongData currentSong;
 
 	//Screens
 	class ScreenID{
@@ -25,9 +31,6 @@ public class SuperTempo extends Game {
 	Screen[] screens;
 
 	GameScreen gameScreen;
-
-	//Global data
-	public SongData currentSong;
 
 	
 	@Override
@@ -44,6 +47,8 @@ public class SuperTempo extends Game {
 		screens[ScreenID.Game] = gameScreen;
 
 		setScreen(ScreenID.Game);
+
+
 	}
 
 	@Override
