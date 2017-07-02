@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class GameWorld {
 
-    Vector2 res_;
+    public Vector2 res_;
 
     static final int GRID_W = 3, GRID_H = 3;
     Rectangle gridRect_, smallGridRect_;

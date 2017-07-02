@@ -32,7 +32,7 @@ public class GameUI extends Table {
         gameWorld_ = gameWorld;
 
         setFillParent(true);
-        setDebug(true);
+        //setDebug(true);
         top();
 
         //progress bar

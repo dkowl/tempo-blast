@@ -35,6 +35,10 @@ public class GameRenderer {
     private SpriteBatch spriteBatch_;
 
     //textures
+    //background
+    private Texture bgTexture_;
+
+    //keys
     private Texture keyTexture_;
     private TextureRegion keyRegion_, keyHighlightRegion_;
 
@@ -43,6 +47,8 @@ public class GameRenderer {
         camera_ = camera;
         shapeRenderer_ = new ShapeRenderer();
         spriteBatch_ = new SpriteBatch();
+
+        bgTexture_ = new Texture(Gdx.files.internal("background_action.jpg"));
 
         keyTexture_ = new Texture(Gdx.files.internal("key.png"));
         keyRegion_ = new TextureRegion(keyTexture_, 0, 0, 512, 512);
@@ -57,6 +63,12 @@ public class GameRenderer {
 
         shapeRenderer_.setProjectionMatrix(camera_.combined);
         spriteBatch_.setProjectionMatrix(camera_.combined);
+
+        //rendering background
+        spriteBatch_.begin();
+        spriteBatch_.setColor(1, 1, 1, (float)Math.max(0, (world_.song_.streak()-10))/100f);
+        spriteBatch_.draw(bgTexture_, 0, 0, world_.res_.x, world_.res_.y);
+        spriteBatch_.end();
 
         //rendering lanes
         ArrayList<Lane> lanes = world_.lanes_;
@@ -86,6 +98,7 @@ public class GameRenderer {
 
         //rendering keys
         spriteBatch_.begin();
+        spriteBatch_.setColor(1, 1, 1, 1);
         for(int i = 0; i<lanes.size(); i++){
             Rectangle rect = lanes.get(i).lerpRect(1);
             Key key = song.keys_[i];
