@@ -7,12 +7,14 @@ package com.supertempo.Resources;
 public class SongData{
     private String artist_, title_, filename_;
     private float length_;
+    private int stars_;
 
     SongData(String artist, String title, String filename, float length){
         artist_ = artist;
         title_ = title;
         filename_ = filename;
         length_ = length;
+        stars_ = 0;
     }
 
     public String name(){

@@ -140,4 +140,19 @@ public class Song {
         return streak_;
     }
 
+    public boolean finished() { return (time_ - 1) > songData_.length(); }
+
+    public int stars(){
+        if(accuracy() > 0.95f){
+            return 3;
+        }
+        else if(accuracy() > 0.8f){
+            return 2;
+        }
+        else if(accuracy() > 0.6f){
+            return 1;
+        }
+        else return 0;
+    }
+
 }

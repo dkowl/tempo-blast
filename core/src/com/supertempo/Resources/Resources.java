@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Resources {
 
-
+    public static int MAX_STARS = 3;
 
     public static SongData[] songData = {
             new SongData("Datsik", "Nasty", "datsik_nasty", 272),
