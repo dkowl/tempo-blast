@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.supertempo.Resources.Resources;
 import com.supertempo.Screens.Game.GameWorld;
+import com.supertempo.Song;
 
 /**
  * Created by Dominik on 7/2/2017.
@@ -18,10 +19,10 @@ public class GameEndScreen extends Table {
     Vector2 res_;
     GameWorld gameWorld_;
 
-    private Label text_;
+    private Label text_, score_;
     private HorizontalGroup starGroup_;
     private Image[] stars_;
-    private boolean starsSet_ = false;
+    private boolean initialized_ = false;
 
     public GameEndScreen(Vector2 res, GameWorld gameWorld){
         super();
@@ -35,17 +36,26 @@ public class GameEndScreen extends Table {
         center();
         setPosition(0, res_.y*0.25f);
 
-        text_ = new Label("Song finished!", Resources.uiSkin);
-        add(text_).center();
-        row();
-
         setVisible(false);
 
     }
 
-    void setStars(int stars){
+    void initialize(Song song){
 
-        if(starsSet_) return;
+        if(initialized_) return;
+
+        int stars = song.stars();
+        int points = song.correct_;
+        int maxPoints = song.total_;
+
+        text_ = new Label("Song finished!", Resources.uiSkin);
+        add(text_).center();
+        row();
+
+        score_ = new Label(Integer.toString(song.correct_) + " / " + Integer.toString(song.total_), Resources.uiSkin);
+        add(score_).center();
+        row();
+
 
         starGroup_ = new HorizontalGroup().space(16);
         stars_ = new Image[Resources.MAX_STARS];
@@ -60,14 +70,14 @@ public class GameEndScreen extends Table {
         row();
 
         setVisible(true);
-        starsSet_ = true;
+        initialized_ = true;
     }
 
     @Override
     public void act(float delta){
 
         if(gameWorld_.song_.finished()){
-            setStars(gameWorld_.song_.stars());
+            initialize(gameWorld_.song_);
         }
     }
 }

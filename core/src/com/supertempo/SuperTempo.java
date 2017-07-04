@@ -39,7 +39,7 @@ public class SuperTempo extends Game {
 		defaultCamera = new OrthographicCamera(res.x, res.y);
 		defaultCamera.setToOrtho(true);
 
-		currentSong = Resources.songData[0];
+		currentSong = Resources.songData[2];
 
 		screens = new Screen[ScreenID.Count];
 

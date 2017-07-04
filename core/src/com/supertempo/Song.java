@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Song {
 
-    String name_;
+    public String name_;
     ArrayList<Note> notes_;
     public Key[] keys_ = new Key[GameWorld.laneCount()];
     float noteLifeTime = 1f;

@@ -22,7 +22,7 @@ public class GameUI extends Table {
     GameWorld gameWorld_;
 
     private ProgressBar progressBar;
-    private Label labelStreak, labelAccuracy;
+    private Label songName_, labelStreak, labelAccuracy;
 
     public GameUI(Vector2 res, GameWorld gameWorld){
 
@@ -30,6 +30,7 @@ public class GameUI extends Table {
 
         res_ = res;
         gameWorld_ = gameWorld;
+        Song song = gameWorld_.song_;
 
         setFillParent(true);
         //setDebug(true);
@@ -46,9 +47,14 @@ public class GameUI extends Table {
         add(progressBar).expandX().fillX().colspan(2);
         row().height(barHeight);
 
+        songName_ = new Label(song.name_, Resources.uiSkin);
+        add(songName_).center().colspan(2).pad(16, 0, 16, 0);
+        row();
+
         //Streak
         labelStreak = new Label("Streak: ", Resources.uiSkin);
         add(labelStreak).uniform();
+
         labelAccuracy = new Label("Accuracy: ", Resources.uiSkin);
         add(labelAccuracy).uniform();
 
