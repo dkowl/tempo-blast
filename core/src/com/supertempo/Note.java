@@ -9,9 +9,11 @@ public class Note {
     public int lane_;
     public float time_;
     public float value_;
+    public boolean wasPressed_;
 
     public Note(int lane, float time){
         lane_ = lane;
         time_ = time;
+        wasPressed_ = false;
     }
 }

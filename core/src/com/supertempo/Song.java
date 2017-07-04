@@ -44,7 +44,9 @@ public class Song {
     public ArrayList<Note> activeNotes(){
         ArrayList<Note> result = new ArrayList<Note>();
         for(int i = lastActiveNote_ - 1; i>=firstActiveNote_; i--){
-            result.add(notes_.get(i));
+            if(!notes_.get(i).wasPressed_) {
+                result.add(notes_.get(i));
+            }
         }
         return result;
     }
@@ -59,9 +61,14 @@ public class Song {
 
     public void hitNote(int lane, boolean missed){
         boolean correct = false;
-        if(!missed && firstActiveNote().lane_ == lane){
-            correct = true;
-            firstActiveNote_++;
+        if(!missed){
+            ArrayList<Note> notes = activeNotes();
+            for(Note note: notes){
+                if(note.lane_ == lane){
+                    note.wasPressed_ = true;
+                    correct = true;
+                }
+            }
         }
 
         //Updating scores
@@ -82,7 +89,9 @@ public class Song {
         if(time>1) time = 0;
 
         while(firstActiveNote_ < notes_.size() && firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
-            hitNote(firstActiveNote().lane_, true);
+            if(!firstActiveNote().wasPressed_) {
+                hitNote(firstActiveNote().lane_, true);
+            }
             firstActiveNote_++;
         }
         while(lastActiveNote_ < notes_.size() - 1 && lastActiveNote_<notes_.size() && notes_.get(lastActiveNote_).time_ < time_ + noteLifeTime){
