@@ -16,6 +16,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Song {
 
+    static final float START_TIME = 3, NOTE_DELAY = 0.2f;
+
     public String name_;
     ArrayList<Note> notes_;
     public Key[] keys_ = new Key[GameWorld.laneCount()];
@@ -86,7 +88,7 @@ public class Song {
 
     public void updateTime(float time){
 
-        if(time>1) time = 0;
+        if(!music_.isPlaying() && time_ > START_TIME) music_.play();
 
         while(firstActiveNote_ < notes_.size() && firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
             if(!firstActiveNote().wasPressed_) {
@@ -128,13 +130,12 @@ public class Song {
             String line = scanner.nextLine();
             Scanner lineScanner = new Scanner(line);
             lineScanner.useDelimiter("\\s*,\\s*");
-            float time = lineScanner.nextFloat()/2f+0.4f;
+            float time = lineScanner.nextFloat()/2f+START_TIME+NOTE_DELAY;
             int lane = (int)lineScanner.nextFloat()-1;
             notes_.add(new Note(lane, time));
         }
 
         music_ = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
-        music_.play();
     }
 
     public float accuracy(){

@@ -56,7 +56,6 @@ public class GameScreen implements Screen {
 
         inputHandler = new InputHandlerGame(gameWorld_);
         inputs_ = new InputMultiplexer(stage_, inputHandler);
-        Gdx.input.setInputProcessor(inputs_);
     }
 
     @Override
@@ -77,6 +76,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show(){
+        Gdx.input.setInputProcessor(inputs_);
         resume();
     }
 

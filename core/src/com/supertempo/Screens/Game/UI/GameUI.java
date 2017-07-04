@@ -47,6 +47,7 @@ public class GameUI extends Table {
         add(progressBar).expandX().fillX().colspan(2);
         row().height(barHeight);
 
+        //Song name
         songName_ = new Label(song.name_, Resources.uiSkin);
         add(songName_).center().colspan(2).pad(16, 0, 16, 0);
         row();
@@ -55,6 +56,7 @@ public class GameUI extends Table {
         labelStreak = new Label("Streak: ", Resources.uiSkin);
         add(labelStreak).uniform();
 
+        //Accuracy
         labelAccuracy = new Label("Accuracy: ", Resources.uiSkin);
         add(labelAccuracy).uniform();
 

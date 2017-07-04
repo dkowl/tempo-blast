@@ -66,7 +66,7 @@ public class GameRenderer {
 
         //rendering background
         spriteBatch_.begin();
-        spriteBatch_.setColor(1, 1, 1, Math.max(0, Math.min(1, (world_.song_.streak()-10))/100f));
+        spriteBatch_.setColor(1, 1, 1, backgroundAlpha());
         spriteBatch_.draw(bgTexture_, 0, 0, world_.res_.x, world_.res_.y);
         spriteBatch_.end();
 
@@ -124,5 +124,10 @@ public class GameRenderer {
         shapeRenderer_.dispose();
         spriteBatch_.dispose();
         keyTexture_.dispose();
+    }
+
+    float backgroundAlpha(){
+        float streak = world_.song_.streak();
+        return Math.max(Math.min(1, (streak-10f)/100f), 0);
     }
 }

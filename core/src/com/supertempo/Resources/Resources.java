@@ -1,7 +1,9 @@
 package com.supertempo.Resources;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
@@ -9,6 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 
 public class Resources {
+
+    //Asset descriptors
+    public static AssetDescriptor<Texture>
+            homeBackground = new AssetDescriptor<Texture>("background.png", Texture.class),
+            actionBackground = new AssetDescriptor<Texture>("background_action.jpg", Texture.class),
+            keyTexture = new AssetDescriptor<Texture>("key.png", Texture.class);
 
     public static int MAX_STARS = 3;
 
