@@ -3,6 +3,7 @@ package com.supertempo;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,11 +15,15 @@ import com.supertempo.Resources.Resources;
 import com.supertempo.Resources.SongData;
 import com.supertempo.Screens.Game.GameScreen;
 import com.supertempo.Screens.Home.HomeScreen;
+import com.supertempo.Screens.Songs.SongScreen;
 
 public class SuperTempo extends Game {
 
 	public Vector2 res;
 	public OrthographicCamera defaultCamera;
+
+	//Preferences
+	public Preferences prefs;
 
 	//Global data
 	public SongData currentSong;
@@ -30,15 +35,15 @@ public class SuperTempo extends Game {
 	public class ScreenID{
 		public static final int
 				Home = 0,
-				Game = 1,
-				Count = 2;
+				Songs = 1,
+				Game = 2,
+				Count = 3;
 	}
 	Screen[] screens;
 
 	HomeScreen homeScreen;
+	SongScreen songScreen;
 	GameScreen gameScreen;
-
-
 	
 	@Override
 	public void create () {
@@ -46,7 +51,12 @@ public class SuperTempo extends Game {
 		defaultCamera = new OrthographicCamera(res.x, res.y);
 		defaultCamera.setToOrtho(true);
 
+		//Preferences
+		prefs = Gdx.app.getPreferences(Resources.PREF_NAME);
+		prefs.putString("chuj", "penis");
+
 		//Global data
+		Resources.loadSongData(prefs);
 		currentSong = Resources.songData[2];
 
 		//Asset manager
@@ -58,10 +68,14 @@ public class SuperTempo extends Game {
 		homeScreen = new HomeScreen(this);
 		screens[ScreenID.Home] = homeScreen;
 
+		songScreen = new SongScreen(this);
+		screens[ScreenID.Songs] = songScreen;
+
 		gameScreen = new GameScreen(this);
 		screens[ScreenID.Game] = gameScreen;
 
 		setScreen(ScreenID.Home);
+
 
 
 	}

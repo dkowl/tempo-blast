@@ -1,6 +1,8 @@
 package com.supertempo.Screens.Game.UI;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.supertempo.Resources.Resources;
 import com.supertempo.Screens.Game.GameWorld;
 import com.supertempo.Song;
+import com.supertempo.SuperTempo;
 
 /**
  * Created by Dominik on 7/2/2017.
@@ -18,19 +21,21 @@ public class GameEndScreen extends Table {
 
     Vector2 res_;
     GameWorld gameWorld_;
+    SuperTempo game_;
 
     private Label text_, score_;
     private HorizontalGroup starGroup_;
     private Image[] stars_;
     private boolean initialized_ = false;
 
-    public GameEndScreen(Vector2 res, GameWorld gameWorld){
+    public GameEndScreen(Vector2 res, GameWorld gameWorld, SuperTempo game){
         super();
 
         //setDebug(true);
 
         res_ = res;
         gameWorld_ = gameWorld;
+        game_ = game;
 
         setFillParent(true);
         center();
@@ -47,6 +52,9 @@ public class GameEndScreen extends Table {
         int stars = song.stars();
         int points = song.correct_;
         int maxPoints = song.total_;
+
+        //saving best scores
+        song.updateSongData(game_.prefs);
 
         text_ = new Label("Song finished!", Resources.uiSkin);
         add(text_).center();
@@ -68,6 +76,17 @@ public class GameEndScreen extends Table {
         }
         add(starGroup_);
         row();
+
+        //input
+        addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game_.setScreen(SuperTempo.ScreenID.Songs);
+            }
+        });
 
         setVisible(true);
         initialized_ = true;

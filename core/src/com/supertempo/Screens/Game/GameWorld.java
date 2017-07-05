@@ -30,8 +30,6 @@ public class GameWorld {
 
     public ArrayList<Lane> lanes_;
 
-    private float timeElapsed_;
-
     public Song song_;
 
     public GameWorld(Vector2 res, SongData songData){
@@ -52,13 +50,10 @@ public class GameWorld {
             }
         }
 
-        timeElapsed_ = 0;
-
-        song_ = new Song(songData);
+        loadSong(songData);
     }
 
     public void update(float delta){
-        timeElapsed_ += delta;
         song_.updateTime(delta);
     }
 
@@ -73,5 +68,9 @@ public class GameWorld {
 
     public static int laneCount(){
         return GRID_W * GRID_H;
+    }
+
+    public void loadSong(SongData songData){
+        song_ = new Song(songData);
     }
 }

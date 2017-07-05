@@ -1,6 +1,7 @@
 package com.supertempo;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.supertempo.Resources.SongData;
@@ -25,7 +26,7 @@ public class Song {
     int firstActiveNote_ = 0, lastActiveNote_ = 0;
     float time_ = 0f;
 
-    SongData songData_;
+    public SongData songData_;
     Music music_;
 
     //Scoring
@@ -88,9 +89,9 @@ public class Song {
 
     public void updateTime(float time){
 
-        if(!music_.isPlaying() && time_ > START_TIME) music_.play();
+        if(!music_.isPlaying() && time_ > START_TIME && !finished()) music_.play();
 
-        while(firstActiveNote_ < notes_.size() && firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
+        while(firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
             if(!firstActiveNote().wasPressed_) {
                 hitNote(firstActiveNote().lane_, true);
             }
@@ -150,7 +151,7 @@ public class Song {
         return streak_;
     }
 
-    public boolean finished() { return (time_ - 1) > songData_.length(); }
+    public boolean finished() { return (time_ - START_TIME - 1) > songData_.length(); }
 
     public int stars(){
         if(accuracy() > 0.95f){
@@ -163,6 +164,10 @@ public class Song {
             return 1;
         }
         else return 0;
+    }
+
+    public void updateSongData(Preferences prefs){
+        songData_.updateScore(stars(), correct_, total_, prefs);
     }
 
 }

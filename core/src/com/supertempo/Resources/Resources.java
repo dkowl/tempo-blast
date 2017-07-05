@@ -1,9 +1,11 @@
 package com.supertempo.Resources;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
@@ -11,6 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 
 public class Resources {
+
+    public static Vector2 referenceRes = new Vector2(1080, 1920);
+
+    //Preference name
+    public static String PREF_NAME = "PlayerData";
 
     //Asset descriptors
     public static AssetDescriptor<Texture>
@@ -26,6 +33,12 @@ public class Resources {
             new SongData("Far Too Loud", "Firestorm", "far-too-loud_firestorm", 288),
             new SongData("Fantastik", "Reptilians", "fantastik_reptilians", 331),
     };
+
+    public static void loadSongData(Preferences prefs){
+        for(SongData data: songData){
+            data.load(prefs);
+        }
+    }
 
     public static Skin uiSkin = new Skin(Gdx.files.internal("ui/skin/uiskin.gayson"));
 

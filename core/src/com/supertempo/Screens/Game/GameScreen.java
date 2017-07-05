@@ -44,18 +44,6 @@ public class GameScreen implements Screen {
 
         res_ = game_.res;
         camera_ = game.defaultCamera;
-
-        gameWorld_ = new GameWorld(res_, game_.currentSong);
-        gameRenderer_ = new GameRenderer(gameWorld_, camera_);
-        gameUi_ = new GameUI(res_, gameWorld_);
-        gameEndScreen_ = new GameEndScreen(res_, gameWorld_);
-
-        stage_ = new Stage(new FitViewport(res_.x, res_.y));
-        stage_.addActor(gameUi_);
-        stage_.addActor(gameEndScreen_);
-
-        inputHandler = new InputHandlerGame(gameWorld_);
-        inputs_ = new InputMultiplexer(stage_, inputHandler);
     }
 
     @Override
@@ -76,7 +64,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void show(){
+
+        gameWorld_ = new GameWorld(res_, game_.currentSong);
+        gameRenderer_ = new GameRenderer(gameWorld_, camera_);
+        gameUi_ = new GameUI(res_, gameWorld_);
+        gameEndScreen_ = new GameEndScreen(res_, gameWorld_, game_);
+
+        stage_ = new Stage(new FitViewport(res_.x, res_.y));
+        stage_.addActor(gameUi_);
+        stage_.addActor(gameEndScreen_);
+
+        inputHandler = new InputHandlerGame(gameWorld_);
+        inputs_ = new InputMultiplexer(stage_, inputHandler);
         Gdx.input.setInputProcessor(inputs_);
+
         resume();
     }
 
