@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Song {
 
-    static final float START_TIME = 3, NOTE_DELAY = 0.2f;
+    static final float START_TIME = 3, NOTE_DELAY = 0.35f;
 
     public String name_;
     ArrayList<Note> notes_;
@@ -32,7 +32,7 @@ public class Song {
     //Scoring
     public int streak_, correct_, total_;
 
-    public Song(SongData songData){
+    public Song(SongData songData, Music music){
 
         for(int i = 0; i<keys_.length; i++){
             keys_[i] = new Key();
@@ -41,6 +41,7 @@ public class Song {
         songData_ = songData;
         name_ = songData_.name();
         loadFromFile(songData.notePath(), songData.songPath());
+        music_ = music;
     }
 
     //returns all active notes in reverse order
@@ -131,12 +132,10 @@ public class Song {
             String line = scanner.nextLine();
             Scanner lineScanner = new Scanner(line);
             lineScanner.useDelimiter("\\s*,\\s*");
-            float time = lineScanner.nextFloat()/2f+START_TIME+NOTE_DELAY;
-            int lane = (int)lineScanner.nextFloat()-1;
+            float time = Float.parseFloat(lineScanner.next())/2f+START_TIME+NOTE_DELAY;
+            int lane = (int)Float.parseFloat(lineScanner.next())-1;
             notes_.add(new Note(lane, time));
         }
-
-        music_ = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
     }
 
     public float accuracy(){

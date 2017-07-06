@@ -1,6 +1,8 @@
 package com.supertempo.Resources;
 
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Music;
 
 /**
  * Created by Dominik on 6/29/2017.
@@ -59,5 +61,9 @@ public class SongData{
 
             save(prefs);
         }
+    }
+
+    public AssetDescriptor<Music> descriptor(){
+        return new AssetDescriptor<Music>(songPath(), Music.class);
     }
 }

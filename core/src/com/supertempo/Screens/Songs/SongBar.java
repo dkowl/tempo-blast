@@ -1,5 +1,6 @@
 package com.supertempo.Screens.Songs;
 
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -13,6 +14,9 @@ import com.badlogic.gdx.utils.Align;
 import com.supertempo.Resources.Resources;
 import com.supertempo.Resources.SongData;
 import com.supertempo.SuperTempo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Dominik on 7/5/2017.
@@ -69,7 +73,10 @@ public class SongBar extends Table {
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 game_.currentSong = songData_;
-                game_.setScreen(SuperTempo.ScreenID.Game);
+                game_.homeScreen.load(new ArrayList<AssetDescriptor<?>>(Arrays.asList(songData_.descriptor())));
+                game_.homeScreen.setDestScreen(SuperTempo.ScreenID.Game);
+                game_.homeScreen.waitForInput(false);
+                game_.setScreen(SuperTempo.ScreenID.Home);
             }
         });
     }

@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
     @Override
     public void show(){
 
-        gameWorld_ = new GameWorld(res_, game_.currentSong);
+        gameWorld_ = new GameWorld(res_, game_.currentSong, game_);
         gameRenderer_ = new GameRenderer(gameWorld_, camera_);
         gameUi_ = new GameUI(res_, gameWorld_);
         gameEndScreen_ = new GameEndScreen(res_, gameWorld_, game_);

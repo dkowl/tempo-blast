@@ -18,14 +18,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.supertempo.Resources.Resources;
 import com.supertempo.SuperTempo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Dominik on 7/4/2017.
  */
 
 public class HomeScreen implements Screen {
 
-    boolean isPaused_;
-    boolean isLoading_;
+    boolean isPaused_,
+            isLoading_,
+            waitForInput_ = true;
 
     SuperTempo game_;
     Vector2 res_;
@@ -50,7 +54,10 @@ public class HomeScreen implements Screen {
     //Input
     HomeInputHandler inputHandler_;
 
-    public HomeScreen(SuperTempo game){
+    //Screen that will be set after loading
+    int destScreen_;
+
+    public HomeScreen(SuperTempo game, int destScreen){
 
         isLoading_ = true;
 
@@ -58,6 +65,8 @@ public class HomeScreen implements Screen {
         res_ = game_.res;
         camera_ = game_.defaultCamera;
         manager_ = game_.manager;
+
+        destScreen_ = destScreen;
 
         //Loading the loading screen resources
         manager_.load(Resources.homeBackground);
@@ -111,6 +120,7 @@ public class HomeScreen implements Screen {
         if(isLoading_){
             if(manager_.update()){
                 isLoading_ = false;
+                if(!waitForInput_) finish();
                 text_.setText("Tap to play");
                 progress_.setText("");
             }
@@ -161,5 +171,25 @@ public class HomeScreen implements Screen {
 
     float textAlpha(){
         return Math.abs(0.5f-(timeElapsed_%FADE_TIME)/FADE_TIME)*2;
+    }
+
+    public void load(List<AssetDescriptor<?>> assets){
+        for(AssetDescriptor asset: assets){
+            manager_.load(asset);
+        }
+        isLoading_ = true;
+        text_.setText("Loading...");
+    }
+
+    public void setDestScreen(int screenId){
+        destScreen_ = screenId;
+    }
+
+    void finish(){
+        game_.setScreen(destScreen_);
+    }
+
+    public void waitForInput(boolean b){
+        waitForInput_ = b;
     }
 }

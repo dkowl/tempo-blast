@@ -17,7 +17,9 @@ public class HomeInputHandler extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        homeScreen_.game_.setScreen(SuperTempo.ScreenID.Songs);
+        if(!homeScreen_.isLoading_) {
+            homeScreen_.finish();
+        }
 
         return true;
     }
