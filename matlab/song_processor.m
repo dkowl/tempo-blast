@@ -1,12 +1,12 @@
 clear;
 
-songName = 'datsik_nasty';
+songName = 'vysoke-celo_lot-na-ksiezyc';
 songFormat = '.wav';
 songFolder = 'C:\Users\Dominik\Desktop\SuperTempo\matlab\music\';
 songPath = strcat(songFolder, songName, songFormat);
 
 [song, fs] = audioread(songPath);
-song = song(500000:10000000);
+%song = song(1:1000000);
 L = length(song);
 windowL = 512;
 hannWindow = hann(windowL);
@@ -117,7 +117,7 @@ for i = (1+peakWindowSize:totalWindows-1-peakWindowSize)
 end
 
 %peak filtering
-peakDropTime = 2;
+peakDropTime = 0.5;
 peakThreshold = zeros(size(peaks));
 peakDropPerFrame = (windowL/fs)/peakDropTime;
 currentThreshold = zeros(1, filterNo);
@@ -236,7 +236,7 @@ fclose(fileID);
 %display loop
 slowdown = 1;
 windowDisplayStep = 8;
-displayOn = true;
+displayOn = false;
 playOn = false;
 for i = (1:windowDisplayStep:totalWindows)
     if(displayOn == false)

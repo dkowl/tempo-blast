@@ -85,16 +85,16 @@ public class GameRenderer {
         Song song = world_.song_;
         ArrayList<Note> notes = song.activeNotes();
 
-        shapeRenderer_.begin(ShapeRenderer.ShapeType.Filled);
+        spriteBatch_.begin();
         for(int i = 0; i<notes.size(); i++){
             Note note = notes.get(i);
             Rectangle rect = lanes.get(note.lane_).lerpRect(note.value_);
             Color color = Resources.noteColor(note.lane_);
-            color.a = 0.5f;
-            shapeRenderer_.setColor(color);
-            shapeRenderer_.rect(rect.x, rect.y, rect.width, rect.height);
+            color.a = 1f;
+            spriteBatch_.setColor(color);
+            spriteBatch_.draw(Resources.uiSkin.getRegion("note"), rect.x, rect.y, rect.width, rect.height);
         }
-        shapeRenderer_.end();
+        spriteBatch_.end();
 
         //rendering keys
         spriteBatch_.begin();

@@ -62,9 +62,6 @@ public class SongBar extends Table {
         }
         add(starGroup_).width(res_.x*0.15f).height(res_.x*0.15f/Resources.MAX_STARS).padRight(res_.x*0.025f);
 
-        //playButton_ = new TextButton("PLAY", Resources.uiSkin);
-        //add(playButton_).width(res_.x*0.15f).right();
-
         //Input
         addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -79,5 +76,15 @@ public class SongBar extends Table {
                 game_.setScreen(SuperTempo.ScreenID.Home);
             }
         });
+    }
+
+    public void refresh(){
+        name_.setText(songData_.name());
+        for(int i = 0; i<Resources.MAX_STARS; i++){
+            String drawableName;
+            if(songData_.stars()>i) drawableName = "star_filled";
+            else drawableName = "star";
+            stars_[i] = new Image(Resources.uiSkin, drawableName);
+        }
     }
 }

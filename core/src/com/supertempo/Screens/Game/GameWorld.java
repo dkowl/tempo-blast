@@ -24,7 +24,7 @@ public class GameWorld {
     static final int GRID_W = 3, GRID_H = 3;
     Rectangle gridRect_, smallGridRect_;
     static final float
-            smallGridScale = 0.5f,
+            smallGridScale = 1f,
             smallGridYShift = 0.0f,
             smallGridXShift = 0.0f;
 

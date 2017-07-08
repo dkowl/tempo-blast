@@ -93,4 +93,10 @@ public class SongScreen implements Screen {
         stage_.dispose();
     }
 
+    public void refresh(){
+        for(SongBar bar: songBars_){
+            bar.refresh();
+        }
+    }
+
 }

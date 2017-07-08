@@ -51,6 +51,7 @@ public class SongData{
         prefs.putInteger(name() + ".points", bestPoints_);
         prefs.putInteger(name() + ".totalPoints", bestTotalPoints_);
         prefs.flush();
+        load(prefs);
     }
 
     public void updateScore(int stars, int points, int totalPoints, Preferences prefs){

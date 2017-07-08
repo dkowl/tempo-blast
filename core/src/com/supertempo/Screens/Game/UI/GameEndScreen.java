@@ -84,6 +84,7 @@ public class GameEndScreen extends Table {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game_.songScreen.refresh();
                 game_.setScreen(SuperTempo.ScreenID.Songs);
             }
         });

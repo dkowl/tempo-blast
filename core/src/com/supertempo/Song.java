@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Song {
 
-    static final float START_TIME = 3, NOTE_DELAY = 0.35f;
+    static final float START_TIME = 3, NOTE_DELAY = 0.5f;
 
     public String name_;
     ArrayList<Note> notes_;
@@ -28,6 +28,7 @@ public class Song {
 
     public SongData songData_;
     Music music_;
+    boolean wasPlayed_ = false;
 
     //Scoring
     public int streak_, correct_, total_;
@@ -71,6 +72,7 @@ public class Song {
                 if(note.lane_ == lane){
                     note.wasPressed_ = true;
                     correct = true;
+                    break;
                 }
             }
         }
@@ -90,7 +92,10 @@ public class Song {
 
     public void updateTime(float time){
 
-        if(!music_.isPlaying() && time_ > START_TIME && !finished()) music_.play();
+        if(!music_.isPlaying() && time_ > START_TIME && !wasPlayed_){
+            music_.play();
+            wasPlayed_ = true;
+        }
 
         while(firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
             if(!firstActiveNote().wasPressed_) {
@@ -153,7 +158,7 @@ public class Song {
     public boolean finished() { return (time_ - START_TIME - 1) > songData_.length(); }
 
     public int stars(){
-        if(accuracy() > 0.95f){
+        if(accuracy() > 0.9f){
             return 3;
         }
         else if(accuracy() > 0.8f){
