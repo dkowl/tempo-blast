@@ -22,7 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//Singleton
 public class SuperTempo extends Game {
+
+	public static SuperTempo instance;
 
 	public Vector2 res;
 	public OrthographicCamera defaultCamera;
@@ -52,13 +55,15 @@ public class SuperTempo extends Game {
 	
 	@Override
 	public void create () {
+
+		instance = this;
+
 		res = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		defaultCamera = new OrthographicCamera(res.x, res.y);
 		defaultCamera.setToOrtho(true);
 
 		//Preferences
 		prefs = Gdx.app.getPreferences(Resources.PREF_NAME);
-		prefs.putString("chuj", "penis");
 
 		//Global data
 		Resources.loadSongData(prefs);
@@ -82,8 +87,6 @@ public class SuperTempo extends Game {
 
 		setScreen(ScreenID.Home);
 
-
-
 	}
 
 	@Override
@@ -102,5 +105,6 @@ public class SuperTempo extends Game {
 		setScreen(screens[id]);
 	}
 
+	public static void SetScreen(int id){ instance.setScreen(id); }
 
 }

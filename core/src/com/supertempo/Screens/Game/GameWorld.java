@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class GameWorld {
 
-    SuperTempo game_;
     public Vector2 res_;
 
     static final int GRID_W = 3, GRID_H = 3;
