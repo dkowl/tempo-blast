@@ -1,4 +1,4 @@
-package com.supertempo;
+package com.supertempo.Screens.Game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -9,11 +9,11 @@ import com.supertempo.Screens.Game.GameWorld;
  * Created by Dominik on 6/22/2017.
  */
 
-public class InputHandlerGame extends InputAdapter {
+public class GameInputHandler extends InputAdapter {
 
     private GameWorld gameWorld_;
 
-    public InputHandlerGame(GameWorld gameWorld){
+    public GameInputHandler(GameWorld gameWorld){
         gameWorld_ = gameWorld;
     }
 

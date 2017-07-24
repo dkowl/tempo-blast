@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.supertempo.InputHandlerGame;
 import com.supertempo.Screens.Game.UI.GameEndScreen;
 import com.supertempo.Screens.Game.UI.GameUI;
 import com.supertempo.SuperTempo;
@@ -33,7 +31,7 @@ public class GameScreen implements Screen {
 
     //Input
     private InputMultiplexer inputs_;
-    private InputHandlerGame inputHandler;
+    private GameInputHandler inputHandler;
 
     boolean isPaused_;
 
@@ -71,7 +69,7 @@ public class GameScreen implements Screen {
         stage_.addActor(gameUi_);
         stage_.addActor(gameEndScreen_);
 
-        inputHandler = new InputHandlerGame(gameWorld_);
+        inputHandler = new GameInputHandler(gameWorld_);
         inputs_ = new InputMultiplexer(stage_, inputHandler);
         Gdx.input.setInputProcessor(inputs_);
 

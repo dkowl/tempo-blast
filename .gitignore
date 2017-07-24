@@ -1,6 +1,7 @@
 *.wav
 *.mp3
 *.notes
+*.odt#
 ## Java
 
 *.class
