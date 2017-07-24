@@ -1,6 +1,7 @@
 package com.supertempo.Screens.Game;
 
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,12 +34,9 @@ public class GameWorld {
     public ArrayList<Lane> lanes_;
 
     public Song song_;
-    SongData songData_;
 
-    public GameWorld(Vector2 res, SongData songData, SuperTempo game){
+    public GameWorld(Vector2 res, SongData songData, Music music){
         res_ = res;
-        songData_ = songData;
-        game_ = game;
 
         gridRect_ = new Rectangle(0, res.y-res.x, res.x, res.x);
         smallGridRect_ = Grid.shrink(gridRect_, smallGridScale);
@@ -55,7 +53,7 @@ public class GameWorld {
             }
         }
 
-        song_ = new Song(songData_, game_.manager.get(songData_.descriptor()));
+        song_ = new Song(songData, music);
     }
 
     public void update(float delta){

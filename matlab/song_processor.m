@@ -1,6 +1,6 @@
 clear;
 
-songName = 'vysoke-celo_lot-na-ksiezyc';
+songName = 'ed-sheeran_shape-of-you';
 songFormat = '.wav';
 songFolder = 'C:\Users\Dominik\Desktop\SuperTempo\matlab\music\';
 songPath = strcat(songFolder, songName, songFormat);

@@ -36,7 +36,8 @@ public class Resources {
             new SongData("Caravan Palace", "Lone Digger", "caravan-palace_lone-digger", 232),
             new SongData("Rihanna", "SOS", "rihanna_sos", 238),
             new SongData("Wiz Khalifa", "Black and Yellow", "wiz-khalifa_black-and-yellow", 276),
-            new SongData("Vysoke Celo", "Lot Na Ksiezyc", "vysoke-celo_lot-na-ksiezyc", 473)
+            new SongData("Vysoke Celo", "Lot Na Ksiezyc", "vysoke-celo_lot-na-ksiezyc", 473),
+            new SongData("Ed Sheeran", "Shape of You", "ed-sheeran_shape-of-you", 234)
     };
 
     public static void loadSongData(Preferences prefs){
