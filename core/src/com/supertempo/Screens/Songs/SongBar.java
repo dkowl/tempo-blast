@@ -24,20 +24,16 @@ import java.util.Arrays;
 
 public class SongBar extends Table {
 
-    SuperTempo game_;
     SongData songData_;
     Vector2 res_;
 
     Label name_;
     Table starGroup_;
     Image[] stars_;
-    TextButton playButton_;
 
-
-    public SongBar(SuperTempo game, final SongData songData, Vector2 res){
+    public SongBar(final SongData songData, Vector2 res){
         super();
 
-        game_ = game;
         songData_ = songData;
         res_ = res;
 
@@ -69,11 +65,12 @@ public class SongBar extends Table {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game_.currentSong = songData_;
-                game_.homeScreen.load(new ArrayList<AssetDescriptor<?>>(Arrays.asList(songData_.descriptor())));
-                game_.homeScreen.setDestScreen(SuperTempo.ScreenID.Game);
-                game_.homeScreen.waitForInput(false);
-                game_.setScreen(SuperTempo.ScreenID.Home);
+
+                SuperTempo.instance.currentSong = songData_;
+                SuperTempo.instance.homeScreen.load(new ArrayList<AssetDescriptor<?>>(Arrays.asList(songData_.descriptor())));
+                SuperTempo.instance.homeScreen.setDestScreen(SuperTempo.ScreenID.Game);
+                SuperTempo.instance.homeScreen.waitForInput(false);
+                SuperTempo.SetScreen(SuperTempo.ScreenID.Home);
             }
         });
     }

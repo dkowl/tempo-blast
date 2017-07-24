@@ -31,7 +31,6 @@ public class HomeScreen implements Screen {
             isLoading_,
             waitForInput_ = true;
 
-    SuperTempo game_;
     Vector2 res_;
     Camera camera_;
     AssetManager manager_;
@@ -57,14 +56,13 @@ public class HomeScreen implements Screen {
     //Screen that will be set after loading
     int destScreen_;
 
-    public HomeScreen(SuperTempo game, int destScreen){
+    public HomeScreen(int destScreen){
 
         isLoading_ = true;
 
-        game_ = game;
-        res_ = game_.res;
-        camera_ = game_.defaultCamera;
-        manager_ = game_.manager;
+        res_ = SuperTempo.instance.res;
+        camera_ = SuperTempo.instance.defaultCamera;
+        manager_ = SuperTempo.instance.manager;
 
         destScreen_ = destScreen;
 
@@ -186,7 +184,7 @@ public class HomeScreen implements Screen {
     }
 
     void finish(){
-        game_.setScreen(destScreen_);
+        SuperTempo.SetScreen(destScreen_);
     }
 
     public void waitForInput(boolean b){

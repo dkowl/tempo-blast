@@ -19,8 +19,6 @@ import static com.supertempo.Resources.Resources.songData;
 
 public class SongScreen implements Screen {
 
-    SuperTempo game_;
-
     boolean isPaused_;
 
     Vector2 res_;
@@ -29,10 +27,9 @@ public class SongScreen implements Screen {
     Table table_;
     SongBar[] songBars_;
 
-    public SongScreen(SuperTempo game){
+    public SongScreen(){
 
-        game_ = game;
-        res_ = game_.res;
+        res_ = SuperTempo.instance.res;
 
         stage_ = new Stage(new FitViewport(res_.x, res_.y));
 
@@ -44,7 +41,7 @@ public class SongScreen implements Screen {
         songBars_ = new SongBar[Resources.songData.length];
         for(int i = 0; i<Resources.songData.length; i++){
             SongData songData = Resources.songData[i];
-            songBars_[i] = new SongBar(game_, songData, res_);
+            songBars_[i] = new SongBar(songData, res_);
             table_.row().padTop(res_.y*0.02f);;
             table_.add(songBars_[i]).left().fillX();
         }

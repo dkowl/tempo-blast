@@ -19,7 +19,6 @@ import com.supertempo.SuperTempo;
 
 public class GameScreen implements Screen {
 
-    SuperTempo game_;
     Vector2 res_;
     Camera camera_;
 
@@ -38,12 +37,10 @@ public class GameScreen implements Screen {
 
     boolean isPaused_;
 
-    public GameScreen(SuperTempo game){
+    public GameScreen(){
 
-        game_ = game;
-
-        res_ = game_.res;
-        camera_ = game.defaultCamera;
+        res_ = SuperTempo.instance.res;
+        camera_ = SuperTempo.instance.defaultCamera;
     }
 
     @Override
@@ -65,10 +62,10 @@ public class GameScreen implements Screen {
     @Override
     public void show(){
 
-        gameWorld_ = new GameWorld(res_, game_.currentSong, game_.manager.get(game_.currentSong.descriptor()));
+        gameWorld_ = new GameWorld(res_, SuperTempo.instance.currentSong, SuperTempo.instance.manager.get(SuperTempo.instance.currentSong.descriptor()));
         gameRenderer_ = new GameRenderer(gameWorld_, camera_);
         gameUi_ = new GameUI(res_, gameWorld_);
-        gameEndScreen_ = new GameEndScreen(res_, gameWorld_, game_);
+        gameEndScreen_ = new GameEndScreen(res_, gameWorld_);
 
         stage_ = new Stage(new FitViewport(res_.x, res_.y));
         stage_.addActor(gameUi_);

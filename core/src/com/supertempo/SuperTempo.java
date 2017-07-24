@@ -75,14 +75,14 @@ public class SuperTempo extends Game {
 		//Screens
 		screens = new Screen[ScreenID.Count];
 
-		homeScreen = new HomeScreen(this, ScreenID.Songs);
+		homeScreen = new HomeScreen(ScreenID.Songs);
 		homeScreen.load(new ArrayList<AssetDescriptor<?>>(Arrays.asList(Resources.actionBackground, Resources.keyTexture)));
 		screens[ScreenID.Home] = homeScreen;
 
-		songScreen = new SongScreen(this);
+		songScreen = new SongScreen();
 		screens[ScreenID.Songs] = songScreen;
 
-		gameScreen = new GameScreen(this);
+		gameScreen = new GameScreen();
 		screens[ScreenID.Game] = gameScreen;
 
 		setScreen(ScreenID.Home);
@@ -101,10 +101,10 @@ public class SuperTempo extends Game {
 		}
 	}
 
-	public void setScreen(int id){
+	public static void SetScreen(int id){ instance.setScreen(id); }
+
+	private void setScreen(int id){
 		setScreen(screens[id]);
 	}
-
-	public static void SetScreen(int id){ instance.setScreen(id); }
 
 }

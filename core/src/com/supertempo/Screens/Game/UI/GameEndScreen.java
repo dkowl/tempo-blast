@@ -21,21 +21,19 @@ public class GameEndScreen extends Table {
 
     Vector2 res_;
     GameWorld gameWorld_;
-    SuperTempo game_;
 
     private Label text_, score_;
     private HorizontalGroup starGroup_;
     private Image[] stars_;
     private boolean initialized_ = false;
 
-    public GameEndScreen(Vector2 res, GameWorld gameWorld, SuperTempo game){
+    public GameEndScreen(Vector2 res, GameWorld gameWorld){
         super();
 
         //setDebug(true);
 
         res_ = res;
         gameWorld_ = gameWorld;
-        game_ = game;
 
         setFillParent(true);
         center();
@@ -54,7 +52,7 @@ public class GameEndScreen extends Table {
         int maxPoints = song.total_;
 
         //saving best scores
-        song.updateSongData(game_.prefs);
+        song.updateSongData(SuperTempo.instance.prefs);
 
         text_ = new Label("Song finished!", Resources.uiSkin);
         add(text_).center();
@@ -84,8 +82,8 @@ public class GameEndScreen extends Table {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game_.songScreen.refresh();
-                game_.setScreen(SuperTempo.ScreenID.Songs);
+                SuperTempo.instance.songScreen.refresh();
+                SuperTempo.SetScreen(SuperTempo.ScreenID.Songs);
             }
         });
 
