@@ -51,7 +51,7 @@ public class SuperTempo extends Game {
 
 	public HomeScreen homeScreen;
 	public SongScreen songScreen;
-	GameScreen gameScreen;
+	public GameScreen gameScreen;
 	
 	@Override
 	public void create () {

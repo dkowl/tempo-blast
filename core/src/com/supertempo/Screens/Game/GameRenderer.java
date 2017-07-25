@@ -81,22 +81,9 @@ public class GameRenderer {
         }
         shapeRenderer_.end();
 
-        //rendering notes
-        Song song = world_.song_;
-        ArrayList<Note> notes = song.activeNotes();
-
-        spriteBatch_.begin();
-        for(int i = 0; i<notes.size(); i++){
-            Note note = notes.get(i);
-            Rectangle rect = lanes.get(note.lane_).lerpRect(note.value_);
-            Color color = Resources.noteColor(note.lane_);
-            color.a = 1f;
-            spriteBatch_.setColor(color);
-            spriteBatch_.draw(Resources.uiSkin.getRegion("note"), rect.x, rect.y, rect.width, rect.height);
-        }
-        spriteBatch_.end();
-
         //rendering keys
+        Song song = world_.song_;
+
         spriteBatch_.begin();
         spriteBatch_.setColor(1, 1, 1, 1);
         for(int i = 0; i<lanes.size(); i++){
@@ -115,6 +102,41 @@ public class GameRenderer {
                 spriteBatch_.setColor(Color.WHITE);
             }
             spriteBatch_.draw(keyRegion_, rect.x, rect.y, rect.width, rect.height);
+        }
+        spriteBatch_.end();
+
+        //rendering visible notes
+        ArrayList<Note> notes = song.visibleNotes();
+
+        spriteBatch_.begin();
+        for(int i = 0; i<notes.size(); i++){
+            Note note = notes.get(i);
+            Rectangle rect = lanes.get(note.lane_).lerpRect(note.value_);
+            Color color;
+            if(note.wasPressed_){
+                float inactiveAlpha = 0.6f;
+                color = new Color(0, 0, 0, inactiveAlpha);
+            }
+            else {
+                color = Resources.noteColor(note.lane_);
+                color.a = 1f;
+            }
+            spriteBatch_.setColor(color);
+            spriteBatch_.draw(Resources.uiSkin.getRegion("note"), rect.x, rect.y, rect.width, rect.height);
+        }
+        spriteBatch_.end();
+
+        //rendering active (hittable) notes
+        notes = song.activeNotes();
+
+        spriteBatch_.begin();
+        for(int i = 0; i<notes.size(); i++){
+            Note note = notes.get(i);
+            Rectangle rect = lanes.get(note.lane_).lerpRect(1f);
+            Color color = new Color(1, 1, 1, 1);
+            color.a = note.activeValue_;
+            spriteBatch_.setColor(color);
+            spriteBatch_.draw(Resources.uiSkin.getRegion("note"), rect.x, rect.y, rect.width, rect.height);
         }
         spriteBatch_.end();
 

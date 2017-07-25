@@ -8,7 +8,8 @@ public class Note {
 
     public int lane_;
     public float time_;
-    public float value_;
+    public float value_; //value for approaching note
+    public float activeValue_; //value for can-hit-note indicator (used for nice beat animation)
     public boolean wasPressed_;
 
     public Note(int lane, float time){

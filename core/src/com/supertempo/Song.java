@@ -17,18 +17,20 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Song {
 
-    static final float START_TIME = 3, NOTE_DELAY = 0.5f;
+    static final float START_TIME = 3, NOTE_DELAY = 0f, NOTE_TOLERANCE = 0.25f;
 
     public String name_;
     ArrayList<Note> notes_;
     public Key[] keys_ = new Key[GameWorld.laneCount()];
     float noteLifeTime = 1f;
     int firstActiveNote_ = 0, lastActiveNote_ = 0;
+    int firstVisibleNote_ = 0, lastVisibleNote_ = 0;
     float time_ = 0f;
 
     public SongData songData_;
     Music music_;
     boolean wasPlayed_ = false;
+    boolean isPaused_ = false;
 
     //Scoring
     public int streak_, correct_, total_;
@@ -49,9 +51,17 @@ public class Song {
     public ArrayList<Note> activeNotes(){
         ArrayList<Note> result = new ArrayList<Note>();
         for(int i = lastActiveNote_ - 1; i>=firstActiveNote_; i--){
-            if(!notes_.get(i).wasPressed_) {
+            result.add(notes_.get(i));
+        }
+        return result;
+    }
+
+    public ArrayList<Note> visibleNotes(){
+        ArrayList<Note> result = new ArrayList<Note>();
+        for(int i = lastVisibleNote_ - 1; i>=firstVisibleNote_; i--){
+            //if(!notes_.get(i).wasPressed_) {
                 result.add(notes_.get(i));
-            }
+            //}
         }
         return result;
     }
@@ -92,23 +102,34 @@ public class Song {
 
     public void updateTime(float time){
 
-        if(!music_.isPlaying() && time_ > START_TIME && !wasPlayed_){
-            music_.play();
-            wasPlayed_ = true;
-        }
+        //handle pausing
+        if(isPaused_) return;
 
-        while(firstActiveNote_<notes_.size() && notes_.get(firstActiveNote_).time_ < time_){
+        playMusic();
+
+        //maintaining list of hittable notes
+        while(firstActiveNote_<notes_.size()  && notes_.get(firstActiveNote_).time_ < time_ - NOTE_TOLERANCE){
             if(!firstActiveNote().wasPressed_) {
                 hitNote(firstActiveNote().lane_, true);
             }
             firstActiveNote_++;
         }
-        while(lastActiveNote_ < notes_.size() - 1 && lastActiveNote_<notes_.size() && notes_.get(lastActiveNote_).time_ < time_ + noteLifeTime){
+        while(lastActiveNote_ < notes_.size() - 1 && lastActiveNote_<notes_.size() && notes_.get(lastActiveNote_).time_ < time_ + NOTE_TOLERANCE){
             lastActiveNote_++;
         }
-
         for(int i = firstActiveNote_; i<=lastActiveNote_; i++) {
-            notes_.get(i).value_ = (time_ - (notes_.get(i).time_ - noteLifeTime)) / noteLifeTime;
+            notes_.get(i).activeValue_ = deltaToActiveValue(time_ - notes_.get(i).time_);
+        }
+
+        //maintaining list of visible notes
+        while(firstVisibleNote_<notes_.size()  && notes_.get(firstVisibleNote_).time_ < time_ - NOTE_TOLERANCE){
+            firstVisibleNote_++;
+        }
+        while(lastVisibleNote_ < notes_.size() - 1 && lastVisibleNote_<notes_.size() && notes_.get(lastVisibleNote_).time_ < time_ + noteLifeTime){
+            lastVisibleNote_++;
+        }
+        for(int i = firstVisibleNote_; i<=lastVisibleNote_; i++) {
+            notes_.get(i).value_ = (time_ - (notes_.get(i).time_ - noteLifeTime)) / (noteLifeTime + NOTE_TOLERANCE);
         }
 
         for(int i = 0; i<keys_.length; i++){
@@ -172,6 +193,45 @@ public class Song {
 
     public void updateSongData(Preferences prefs){
         songData_.updateScore(stars(), correct_, total_, prefs);
+    }
+
+    public void pauseMusic(){
+        isPaused_ = true;
+        music_.pause();
+    }
+
+    public void resumeMusic(){
+        playMusic();
+        isPaused_ = false;
+    }
+
+    public void playMusic(){
+        //make sure music is only played once
+        if(!music_.isPlaying() && time_ > START_TIME && (!wasPlayed_ || isPaused_)){
+            music_.play();
+            wasPlayed_ = true;
+        }
+    }
+
+    //computes alpha value for active note beat animation
+    //it is sort of an exponential function
+    public float deltaToActiveValue(float delta){
+        float minVal = 0f;
+        int steepness = 2;
+        int accuracy = 5, accuracyPow2 = 32;
+
+        //normalizing to fit 0..1 scale
+        delta = Math.abs(delta/NOTE_TOLERANCE*2);
+        if(delta > 1) return 0f;
+
+        //exponentiation
+        float result = 1 + -1*(delta*steepness)*(delta*steepness)/accuracyPow2;
+        for(int i = 0; i<accuracy; i++) result*=result;
+
+        //accounting for minVal and returning
+        return minVal + (1-minVal) * result;
+
+
     }
 
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.supertempo.Screens.Game.GameScreen;
 import com.supertempo.Screens.Game.GameWorld;
+import com.supertempo.SuperTempo;
 
 /**
  * Created by Dominik on 6/22/2017.
@@ -32,6 +33,16 @@ public class GameInputHandler extends InputAdapter {
             if(keyId < 3) keyId += 6;
             else if (keyId > 5) keyId -=6;
             gameWorld_.song_.hitNote(keyId);
+        }
+
+        if(keyCode == Input.Keys.ESCAPE){
+            GameScreen gameScreen = SuperTempo.instance.gameScreen;
+            if(!gameScreen.isPaused_){
+                gameScreen.pause();
+            }
+            else{
+                gameScreen.resume();
+            }
         }
 
         return true;

@@ -78,11 +78,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause(){
+        gameWorld_.song_.pauseMusic();
         isPaused_ = true;
     }
 
     @Override
     public void resume(){
+        gameWorld_.song_.resumeMusic();
         isPaused_ = false;
     }
 
