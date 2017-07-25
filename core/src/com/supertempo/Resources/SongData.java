@@ -30,7 +30,7 @@ public class SongData{
     }
 
     public String notePath(){
-        return "music/notes/" + filename_ + ".notes";
+        return "music/notes/easy/" + filename_ + ".notes";
     }
 
     public float length(){

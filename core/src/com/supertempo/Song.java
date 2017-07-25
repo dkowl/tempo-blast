@@ -43,7 +43,7 @@ public class Song {
 
         songData_ = songData;
         name_ = songData_.name();
-        loadFromFile(songData.notePath(), songData.songPath());
+        loadFromFile(songData.notePath());
         music_ = music;
     }
 
@@ -148,7 +148,7 @@ public class Song {
         }
     }
 
-    public void loadFromFile(String notePath, String musicPath){
+    public void loadFromFile(String notePath){
 
         notes_ = new ArrayList<Note>();
         FileHandle noteFile = Gdx.files.internal(notePath);

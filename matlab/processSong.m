@@ -1,12 +1,14 @@
-clear;
+function [ ] = processSong( songName, difficultyName, difficulty )
+%processes a song and outputs a note file in a folder specified by the
+%difficulty
 
-songName = 'ed-sheeran_shape-of-you';
-songFormat = '.wav';
+fprintf('Processing: %s\nDifficulty: %s - %.2f\n', songName, difficultyName, difficulty);
+
 songFolder = 'C:\Users\Dominik\Desktop\SuperTempo\matlab\music\';
-songPath = strcat(songFolder, songName, songFormat);
+songExtension = '.wav';
+songPath = strcat(songFolder, songName, songExtension);
 
 [song, fs] = audioread(songPath);
-%song = song(1:1000000);
 L = length(song);
 windowL = 512;
 hannWindow = hann(windowL);
@@ -70,7 +72,6 @@ for winNo = (1:floor(L/step)-1)
         filterEnergy(j, winNo) = log(energy*1000);
     end
 end
-toc
 
 %smoothing the data
 multiplier = 0.5;
@@ -85,7 +86,6 @@ for i = (2:totalWindows)
         currentEMA(j) = currentEMA(j) + (filterEnergy(j, i) - currentEMA(j)) * multiplier;
     end
 end
-toc
 
 %%%%%%%%%%%%%%%
 %note detection
@@ -204,9 +204,9 @@ for i = 2:totalWindows-1
     end
 end
 
-%difficulty
-difficulty = 0.5; %1 - hardest, 0 - easiest
-maxDecay = 16;
+%difficulty (from function argument)
+%1 - hardest, 0 - easiest
+maxDecay = 4;
 difficultyThreshold = 0;
 lastTime = 0;
 toRemoveIds = [];
@@ -218,13 +218,14 @@ for i = 1:length(noteIds)
     difficultyThreshold = difficultyThreshold * exp(-1*maxDecay*difficulty*deltaTime);
     
     if(noteChance(noteIds(i))>difficultyThreshold)
-        difficultyThreshold = difficultyThreshold + noteChance(noteIds(i));
+        difficultyThreshold = difficultyThreshold + noteChance(noteIds(i))*2;
     else
         toRemoveIds = [toRemoveIds, i];
     end
 end
 
-removeElemen
+noteIds = removeElements(noteIds, toRemoveIds);
+noteChosenChances = removeElements(noteChosenChances, toRemoveIds);
 
 %mapping to key numbers
 keyNo = 9;
@@ -244,7 +245,7 @@ for i = 1:length(noteIds)
 end
 
 %writing to file
-folderName = 'music/notes/';
+folderName = strcat('music/notes/', difficultyName, '/');
 noteFileExtension = '.notes';
 fileID = fopen(strcat(folderName, songName, noteFileExtension), 'w');
 for i = 1:length(noteIds)
@@ -310,4 +311,7 @@ heatmap(peaks);
 subplot(2, 1, 2);
 plot(noteChance);
 %}
+
+
+end
 
