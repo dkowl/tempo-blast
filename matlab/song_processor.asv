@@ -206,7 +206,7 @@ end
 
 %difficulty
 difficulty = 0.5; %1 - hardest, 0 - easiest
-maxDecay = 4;
+maxDecay = 16;
 difficultyThreshold = 0;
 lastTime = 0;
 toRemoveIds = [];
@@ -215,17 +215,16 @@ for i = 1:length(noteIds)
     deltaTime = noteTime(noteIds(i)) - lastTime;
     lastTime = noteTime(noteIds(i));
     
-    difficultyThreshold = difficultyThreshold * exp(-1*maxDecay*difficulty*difficulty*deltaTime);
+    difficultyThreshold = difficultyThreshold * exp(-1*maxDecay*difficulty*deltaTime);
     
     if(noteChance(noteIds(i))>difficultyThreshold)
-        difficultyThreshold = difficultyThreshold + noteChance(noteIds(i))*2;
+        difficultyThreshold = difficultyThreshold + noteChance(noteIds(i));
     else
         toRemoveIds = [toRemoveIds, i];
     end
 end
 
-noteIds = removeElements(noteIds, toRemoveIds);
-noteChosenChances = removeElements(noteChosenChances, toRemoveIds);
+removeElemen
 
 %mapping to key numbers
 keyNo = 9;
@@ -245,7 +244,7 @@ for i = 1:length(noteIds)
 end
 
 %writing to file
-folderName = 'music/notes/easy/';
+folderName = 'music/notes/';
 noteFileExtension = '.notes';
 fileID = fopen(strcat(folderName, songName, noteFileExtension), 'w');
 for i = 1:length(noteIds)
