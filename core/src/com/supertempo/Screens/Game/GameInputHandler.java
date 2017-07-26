@@ -35,7 +35,7 @@ public class GameInputHandler extends InputAdapter {
             gameWorld_.song_.hitNote(keyId);
         }
 
-        if(keyCode == Input.Keys.ESCAPE){
+        if(keyCode == Input.Keys.ESCAPE || keyCode == Input.Keys.BACK){
             GameScreen gameScreen = SuperTempo.instance.gameScreen;
             if(!gameScreen.isPaused_){
                 gameScreen.pause();
