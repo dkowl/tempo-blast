@@ -145,6 +145,7 @@ public class GameRenderer {
     public void dispose(){
         shapeRenderer_.dispose();
         spriteBatch_.dispose();
+        bgTexture_.dispose();
         keyTexture_.dispose();
     }
 

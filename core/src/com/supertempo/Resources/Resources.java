@@ -28,16 +28,16 @@ public class Resources {
     public static int MAX_STARS = 3;
 
     public static SongData[] songData = {
-            new SongData("Datsik", "Nasty", "datsik_nasty", 272),
-            new SongData("Darude", "Sandstorm", "darude_sandstorm", 227),
-            new SongData("Far Too Loud", "Firestorm", "far-too-loud_firestorm", 288),
-            new SongData("Fantastik", "Reptilians", "fantastik_reptilians", 331),
-            new SongData("S3RL", "Bass Slut", "s3rl_bass-slut", 333),
-            new SongData("Caravan Palace", "Lone Digger", "caravan-palace_lone-digger", 232),
             new SongData("Rihanna", "SOS", "rihanna_sos", 238),
-            new SongData("Wiz Khalifa", "Black and Yellow", "wiz-khalifa_black-and-yellow", 276),
+            new SongData("Ed Sheeran", "Shape of You", "ed-sheeran_shape-of-you", 234),
+            new SongData("Far Too Loud", "Firestorm", "far-too-loud_firestorm", 288),
+            new SongData("Caravan Palace", "Lone Digger", "caravan-palace_lone-digger", 232),
+            new SongData("Darude", "Sandstorm", "darude_sandstorm", 227),
+            new SongData("S3RL", "Bass Slut", "s3rl_bass-slut", 333),
             new SongData("Vysoke Celo", "Lot Na Ksiezyc", "vysoke-celo_lot-na-ksiezyc", 473),
-            new SongData("Ed Sheeran", "Shape of You", "ed-sheeran_shape-of-you", 234)
+            new SongData("Fantastik", "Reptilians", "fantastik_reptilians", 331),
+            new SongData("Wiz Khalifa", "Black and Yellow", "wiz-khalifa_black-and-yellow", 276),
+            new SongData("Datsik", "Nasty", "datsik_nasty", 272),
     };
 
     public static void loadSongData(Preferences prefs){

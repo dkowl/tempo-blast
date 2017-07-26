@@ -57,6 +57,7 @@ public class GameScreen implements Screen {
     @Override
     public void hide(){
         pause();
+        Gdx.input.setCatchBackKey(false);
     }
 
     @Override

@@ -50,6 +50,7 @@ public class SongScreen implements Screen {
         toggleButtons_ = new TextButton[Difficulty.size()];
         toggleButtonGroup_ = new ButtonGroup();
         toggleButtonTable_ = new Table();
+        toggleButtonTable_.padTop(32).padBottom(32);
         for(Difficulty difficulty: Difficulty.values()){
             toggleButtons_[difficulty.ordinal()] = new TextButton(difficulty.name(), Resources.uiSkin);
             toggleButtonTable_.add(toggleButtons_[difficulty.ordinal()]).expandX();
@@ -70,7 +71,7 @@ public class SongScreen implements Screen {
         stage_.addActor(table_);
 
         //difficulty
-        setDifficulty(Difficulty.Normal);
+        setDifficulty(Difficulty.Easy);
     }
 
     @Override
