@@ -5,8 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.supertempo.Resources.Difficulty;
 import com.supertempo.Resources.Resources;
 import com.supertempo.Resources.SongData;
 import com.supertempo.SuperTempo;
@@ -25,7 +28,12 @@ public class SongScreen implements Screen {
     Stage stage_;
 
     Table table_;
+
+    Table toggleButtonTable_;
+    ButtonGroup toggleButtonGroup_;
+    TextButton[] toggleButtons_;
     SongBar[] songBars_;
+    Difficulty currentDifficulty_;
 
     public SongScreen(){
 
@@ -38,6 +46,19 @@ public class SongScreen implements Screen {
         table_.setFillParent(true);
         table_.top();
 
+        //toggles
+        toggleButtons_ = new TextButton[Difficulty.size()];
+        toggleButtonGroup_ = new ButtonGroup();
+        toggleButtonTable_ = new Table();
+        for(Difficulty difficulty: Difficulty.values()){
+            toggleButtons_[difficulty.ordinal()] = new TextButton(difficulty.name(), Resources.uiSkin);
+            toggleButtonTable_.add(toggleButtons_[difficulty.ordinal()]);
+            toggleButtonGroup_.add(toggleButtons_[difficulty.ordinal()]);
+        }
+        table_.add(toggleButtonTable_);
+        table_.row();
+
+        //song bars
         songBars_ = new SongBar[Resources.songData.length];
         for(int i = 0; i<Resources.songData.length; i++){
             SongData songData = Resources.songData[i];
@@ -67,6 +88,7 @@ public class SongScreen implements Screen {
     @Override
     public void show(){
         Gdx.input.setInputProcessor(stage_);
+        refresh();
         resume();
     }
 

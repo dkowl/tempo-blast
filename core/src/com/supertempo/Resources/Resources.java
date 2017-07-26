@@ -42,7 +42,7 @@ public class Resources {
 
     public static void loadSongData(Preferences prefs){
         for(SongData data: songData){
-            data.load(prefs);
+            data.loadAll();
         }
     }
 

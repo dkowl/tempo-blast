@@ -11,14 +11,20 @@ import com.badlogic.gdx.audio.Music;
 public class SongData{
     private String artist_, title_, filename_;
     private float length_;
-    private int stars_, bestPoints_, bestTotalPoints_;
+    private Difficulty currentDifficulty_;
+    private SongScore[] scores_;
 
     SongData(String artist, String title, String filename, float length){
         artist_ = artist;
         title_ = title;
         filename_ = filename;
         length_ = length;
-        stars_ = 0; bestPoints_ = 0; bestTotalPoints_ = 0;
+        scores_ = new SongScore[Difficulty.size()];
+        currentDifficulty_ = Difficulty.Normal;
+        Difficulty[] difficulties = Difficulty.values();
+        for(int i = 0; i<difficulties.length; i++){
+            scores_[i] = new SongScore(name() + " - " + difficulties[i].name());
+        }
     }
 
     public String name(){
@@ -30,41 +36,48 @@ public class SongData{
     }
 
     public String notePath(){
-        return "music/notes/easy/" + filename_ + ".notes";
+        return "music/notes/" + currentDifficulty_.folderName() + filename_ + ".notes";
     }
 
     public float length(){
         return length_;
     }
 
-    public int stars(){ return stars_; }
+    public int stars(){ return currentScore().stars(); }
 
-    //saving and loading
-    public void load(Preferences prefs){
-        stars_ = prefs.getInteger(name() + ".stars", 0);
-        bestPoints_ = prefs.getInteger(name() + ".points", 0);
-        bestTotalPoints_ = prefs.getInteger(name() + ".totalPoints", 0);
+    //load current difficulty
+    public void load(){
+        currentScore().load();
     }
 
-    public void save(Preferences prefs){
-        prefs.putInteger(name() + ".stars", stars_);
-        prefs.putInteger(name() + ".points", bestPoints_);
-        prefs.putInteger(name() + ".totalPoints", bestTotalPoints_);
-        prefs.flush();
-        load(prefs);
-    }
-
-    public void updateScore(int stars, int points, int totalPoints, Preferences prefs){
-        if(points >= bestPoints_){
-            stars_ = stars;
-            bestPoints_ = points;
-            bestTotalPoints_ = totalPoints;
-
-            save(prefs);
+    //load all difficulties
+    public void loadAll(){
+        for(SongScore score: scores_){
+            score.load();
         }
+    }
+
+    //save current difficulty
+    public void save(){
+        currentScore().save();
+    }
+
+    //save all difficulties
+    public void saveAll(){
+        for(SongScore score: scores_){
+            score.save();
+        }
+    }
+
+    public void updateScore(int stars, int points, int totalPoints){
+        currentScore().updateScore(stars, points, totalPoints);
     }
 
     public AssetDescriptor<Music> descriptor(){
         return new AssetDescriptor<Music>(songPath(), Music.class);
+    }
+
+    private SongScore currentScore(){
+        return scores_[currentDifficulty_.ordinal()];
     }
 }

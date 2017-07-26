@@ -191,8 +191,8 @@ public class Song {
         else return 0;
     }
 
-    public void updateSongData(Preferences prefs){
-        songData_.updateScore(stars(), correct_, total_, prefs);
+    public void updateSongData(){
+        songData_.updateScore(stars(), correct_, total_);
     }
 
     public void pauseMusic(){

@@ -52,7 +52,7 @@ public class GameEndScreen extends Table {
         int maxPoints = song.total_;
 
         //saving best scores
-        song.updateSongData(SuperTempo.instance.prefs);
+        song.updateSongData();
 
         text_ = new Label("Song finished!", Resources.uiSkin);
         add(text_).center();
