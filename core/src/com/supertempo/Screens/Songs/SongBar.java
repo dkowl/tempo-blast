@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.supertempo.Resources.Difficulty;
 import com.supertempo.Resources.Resources;
 import com.supertempo.Resources.SongData;
 import com.supertempo.SuperTempo;
@@ -77,11 +78,18 @@ public class SongBar extends Table {
 
     public void refresh(){
         name_.setText(songData_.name());
+        starGroup_.clear();
         for(int i = 0; i<Resources.MAX_STARS; i++){
             String drawableName;
             if(songData_.stars()>i) drawableName = "star_filled";
             else drawableName = "star";
             stars_[i] = new Image(Resources.uiSkin, drawableName);
+            starGroup_.add(stars_[i]);
         }
+    }
+
+    public void setDifficulty(Difficulty difficulty){
+        songData_.setDifficulty(difficulty);
+        refresh();
     }
 }

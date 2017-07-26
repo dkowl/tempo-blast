@@ -33,7 +33,7 @@ public class SongScreen implements Screen {
     ButtonGroup toggleButtonGroup_;
     TextButton[] toggleButtons_;
     SongBar[] songBars_;
-    Difficulty currentDifficulty_;
+    private Difficulty currentDifficulty_;
 
     public SongScreen(){
 
@@ -52,10 +52,10 @@ public class SongScreen implements Screen {
         toggleButtonTable_ = new Table();
         for(Difficulty difficulty: Difficulty.values()){
             toggleButtons_[difficulty.ordinal()] = new TextButton(difficulty.name(), Resources.uiSkin);
-            toggleButtonTable_.add(toggleButtons_[difficulty.ordinal()]);
+            toggleButtonTable_.add(toggleButtons_[difficulty.ordinal()]).expandX();
             toggleButtonGroup_.add(toggleButtons_[difficulty.ordinal()]);
         }
-        table_.add(toggleButtonTable_);
+        table_.add(toggleButtonTable_).fillX();
         table_.row();
 
         //song bars
@@ -68,6 +68,9 @@ public class SongScreen implements Screen {
         }
 
         stage_.addActor(table_);
+
+        //difficulty
+        setDifficulty(Difficulty.Normal);
     }
 
     @Override
@@ -76,6 +79,7 @@ public class SongScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage_.act();
+        updateDifficulty();
 
         stage_.draw();
     }
@@ -115,6 +119,29 @@ public class SongScreen implements Screen {
     public void refresh(){
         for(SongBar bar: songBars_){
             bar.refresh();
+        }
+    }
+
+    public void setDifficulty(Difficulty currentDifficulty){
+        currentDifficulty_ = currentDifficulty;
+        for(Difficulty difficulty: Difficulty.values()){
+            TextButton toggleButton = toggleButtons_[difficulty.ordinal()];
+            if(currentDifficulty_ == difficulty){
+                toggleButton.setChecked(true);
+            }
+            else{
+            toggleButton.setChecked(false);
+            }
+        }
+
+        for(SongBar songBar: songBars_){
+            songBar.setDifficulty(currentDifficulty_);
+        }
+    }
+
+    public void updateDifficulty(){
+        if(currentDifficulty_.ordinal() != toggleButtonGroup_.getCheckedIndex()){
+            setDifficulty(Difficulty.values()[toggleButtonGroup_.getCheckedIndex()]);
         }
     }
 

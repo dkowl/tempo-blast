@@ -77,6 +77,11 @@ public class SongData{
         return new AssetDescriptor<Music>(songPath(), Music.class);
     }
 
+    public void setDifficulty(Difficulty difficulty){
+        currentDifficulty_ = difficulty;
+        load();
+    }
+
     private SongScore currentScore(){
         return scores_[currentDifficulty_.ordinal()];
     }
